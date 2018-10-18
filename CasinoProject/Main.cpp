@@ -57,30 +57,39 @@ void decide(char *decision) {
 	}
 }
 
-void chooseGame() {
-	cout << "Please choose from the following options." << endl;
+void endGame(float *wallet, string *playerName) {
+	int x;
+	cout << playerName << " you finished with " << wallet << " in your pocket.  Bye!";
+	cin >> x;
+}
+
+void chooseGame(float *wallet, string *playerName) {
+	cout << "Please choose from the following options " << *playerName << ".  You have " << *wallet << " in your wallet." << endl;
 	cout << "1) Coin Flip" << endl;
 	cout << "2) Casino War" << endl;
 	cout << "3) BlackJack" << endl;
+	cout << "Or type q to quit" << endl;
 
 	string choice = "";
 	int numChoice = 0;
 	getline(cin, choice);
+	if (choice.compare("q") == 0)
+		endGame(wallet, playerName);
 	stringstream geek(choice);
 
 	geek >> numChoice;
 
 	switch (numChoice) {
 	case 1: {cout << "You picked 1! Transferring you to our professional coin flipper." << endl;
-		coinFlip(5);
+		*wallet += coinFlip(5);
+		chooseGame(wallet, playerName);
 		}
-		break;
 	case 2: cout << "You picked 2! Prepare for war." << endl;
 		break;
 	case 3: cout << "You picked 3! Blackjack time." << endl;
 		break;
 	default: { cout << "That was not an option. Please type 1, 2, or 3." << endl;
-		chooseGame();
+		chooseGame(wallet, playerName);
 		break;
 		}
 	}
@@ -89,7 +98,7 @@ void chooseGame() {
 void startPlaying(float *wallet, string *playerName) {
 	int  gameChoice;
 	int *gameChoicePointer = &gameChoice;
-	chooseGame();
+	chooseGame(wallet, playerName);
 }
 
 void startProgram() {
