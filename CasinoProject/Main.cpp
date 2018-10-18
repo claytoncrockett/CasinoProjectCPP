@@ -1,10 +1,36 @@
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <stdlib.h>
+#include <time.h>
 
 using namespace std;
 
 
 void startProgram();
+
+float coinFlip(float bet) {
+	srand((unsigned int)time(NULL));
+	int flipChance = rand() % 2;
+	int numChoice;
+	string coinSides[2] = { "HEADS!", "TAILS!" };
+	string choice;
+	string result = coinSides[flipChance];
+	cout << "Welcome to Coin Flip!" << endl;
+	cout << "Please type 1 for heads, or 2 for tails" << endl;
+	getline(cin, choice);
+	stringstream choiceToNum(choice);
+	choiceToNum >> numChoice;
+	if (--numChoice == flipChance) {
+		cout << "It landed on " << result << "  You win $" << bet << endl;
+		return bet;
+	}
+	else {
+		cout << "It landed on " << result << "  You lose :(" << endl;
+		return (bet * -1);
+	}
+
+}
 
 void setName(string *playerName) {
 	cout << "Please enter your name" << endl;
@@ -19,6 +45,7 @@ void setWallet(float *wallet) {
 
 
 void decide(char *decision) {
+	cout << "Are you ready to begin?" << endl;
 	cin >> *decision;
 	cin.ignore();
 	if (*decision == 'y') {
@@ -31,28 +58,42 @@ void decide(char *decision) {
 }
 
 void chooseGame() {
-	string choice;
-	int numChoice;
+	cout << "Please choose from the following options." << endl;
+	cout << "1) Coin Flip" << endl;
+	cout << "2) Casino War" << endl;
+	cout << "3) BlackJack" << endl;
+
+	string choice = "";
+	int numChoice = 0;
 	getline(cin, choice);
 	stringstream geek(choice);
 
+	geek >> numChoice;
+
 	switch (numChoice) {
-	case 1: cout << "You picked 1!" << endl;
+	case 1: {cout << "You picked 1! Transferring you to our professional coin flipper." << endl;
+		coinFlip(5);
+		}
 		break;
-	case 2: cout << "You picked 2!" << endl;
+	case 2: cout << "You picked 2! Prepare for war." << endl;
 		break;
-	case 3: cout << "You picked 3!" << endl;
+	case 3: cout << "You picked 3! Blackjack time." << endl;
 		break;
-	default: { cout << "That was not an option" << endl;
-		//chooseGame();
+	default: { cout << "That was not an option. Please type 1, 2, or 3." << endl;
+		chooseGame();
 		break;
 		}
 	}
 }
 
-void startProgram() {
-	int x, gameChoice;
+void startPlaying(float *wallet, string *playerName) {
+	int  gameChoice;
 	int *gameChoicePointer = &gameChoice;
+	chooseGame();
+}
+
+void startProgram() {
+	int x;
 	float wallet;
 	float *walletPointer = &wallet;
 	char decision = 'y';
@@ -63,13 +104,8 @@ void startProgram() {
 	setName(playerNamePointer);
 	setWallet(walletPointer);
 	cout << "Ok, so your name is " << playerName << ", and you have $" << wallet << " in your wallet right now." << endl;
-	cout << "Are you ready to begin?" << endl;
 	decide(decisionPointer);
-	cout << "Please choose from the following options." << endl;
-	cout << "1) Coin Flip" << endl;
-	cout << "2) Casino War" << endl;
-	cout << "3) BlackJack" << endl;
-	chooseGame();
+	startPlaying(walletPointer, playerNamePointer);
 	cin >> x;
 }
 
