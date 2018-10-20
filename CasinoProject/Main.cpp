@@ -61,6 +61,7 @@ void endGame(float *wallet, string *playerName) {
 	int x;
 	cout << playerName << " you finished with " << wallet << " in your pocket.  Bye!";
 	cin >> x;
+
 }
 
 void chooseGame(float *wallet, string *playerName) {
@@ -84,8 +85,9 @@ void chooseGame(float *wallet, string *playerName) {
 		*wallet += coinFlip(5);
 		chooseGame(wallet, playerName);
 		}
-	case 2: cout << "You picked 2! Prepare for war." << endl;
+	case 2: {cout << "You picked 2! Prepare for war." << endl;
 		break;
+	}
 	case 3: cout << "You picked 3! Blackjack time." << endl;
 		break;
 	default: { cout << "That was not an option. Please type 1, 2, or 3." << endl;
